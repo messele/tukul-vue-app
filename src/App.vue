@@ -58,6 +58,7 @@ const handleScroll = () => {
       <component v-bind:is="section.component"></component>
     </section>
 
+    <!-- Scroll to top button. by default is invisible-->
     <div
       ref="scrollTopButton"
       class="invisible sticky bottom-[2px] right-[4em] flex gap-1 justify-end pb-3 p-[5em] transition"
