@@ -1,1 +1,0 @@
-import{d as o,o as s,c as t,a as n,t as r,u as c,b as l}from"./index-MtjNFDbS.js";const _=o({__name:"UserProfileView",setup(u){const a=l();return(m,p)=>{var e;return s(),t("main",null,[n("h1",null,"Welcome "+r((e=c(a).params)==null?void 0:e.name),1)])}}});export{_ as default};
