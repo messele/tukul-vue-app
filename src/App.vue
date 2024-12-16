@@ -1,92 +1,102 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import HeroView from './components/HeroView.vue'
+import ContactView from './components/ContactView.vue'
+import ServicesView from './components/ServicesView.vue'
+import TestimonialsView from './components/TestimonialsView.vue'
+import { useTemplateRef, onMounted } from 'vue'
+const sections = [
+  { id: 'hero', title: 'Home', navigateTo: 'app', component: HeroView },
+  { id: 'services', title: 'Services', component: ServicesView },
+  { id: 'testimonial', title: 'Testimonials', component: TestimonialsView },
+  { id: 'contact', title: 'Contact', component: ContactView },
+]
+
+// the first argument must match the ref value in the template
+const scrollToTopBtn = useTemplateRef('scrollTopButton')
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+const scrollToTop = () => {
+  window.scrollTo(0, 0)
+}
+
+const handleScroll = () => {
+  const { scrollHeight, clientHeight = 0 } =
+    document.getElementById('header') || {}
+  console.log(
+    `scrollY:${window.scrollY}, scrollHeight:${scrollHeight}, clientHeight:${clientHeight}`,
+  )
+  if (scrollY > clientHeight)
+    scrollToTopBtn.value?.classList.remove('invisible')
+  else scrollToTopBtn.value?.classList.add('invisible')
+}
 </script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/user">User Profile</RouterLink>
+  <div id="app" class="flex flex-col p-8 max-w-screen-2xl m-auto">
+    <header
+      id="header"
+      class="w-full z-1000 flex flex-end bg-slate-600 text-2xl text-green-50 p-6 rounded-md drop-shadow-md"
+    >
+      <div id="logo" class="m-auto ml-14">
+        <a href="/">Tukul llc</a>
+      </div>
+      <div class="flex-grow"></div>
+      <nav class="m-auto border-l-slate-100">
+        <ul class="list-none flex gap-4">
+          <li v-for="section in sections" :key="section.id">
+            <a :href="`#${section.navigateTo || section.id}`">{{
+              section.title
+            }}</a>
+          </li>
+        </ul>
       </nav>
-    </div>
-  </header>
+    </header>
+    <div class="w-full h-20"></div>
+    <section v-for="section in sections" :key="section.id" :id="section.id">
+      <component v-bind:is="section.component"></component>
+    </section>
 
-  <RouterView />
+    <div
+      ref="scrollTopButton"
+      class="invisible sticky bottom-[2px] right-[4em] flex gap-1 justify-end pb-3 p-[5em] transition"
+    >
+      <!-- <span>scroll to top</span> -->
+      <div
+        class="border-solid bg-green-50 drop-shadow-xl h-16 w-16 p-2 rounded-full hover:text-blue-400 transition"
+      >
+        <button
+          @click="scrollToTop"
+          class="absolute top-[40%] border-[1.5em] border-solid border-green-700 border-t-0 border-r-transparent border-l-transparent"
+        ></button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style>
+html {
+  scroll-behavior: smooth;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+section {
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+section h2 {
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+  color: rgb(21 128 61 / var(--tw-border-opacity, 1));
+  font-size: 24px;
+  font-weight: 700;
 }
 </style>

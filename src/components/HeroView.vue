@@ -34,9 +34,10 @@ const IMAGES: {
   },
   {
     img: 'AIPoweredSoftwareDevelopment.png',
-    alt: 'AI Powered development',
-    header: 'AI Powered Applications',
-    description: 'Building Solutions that leverage AI tools.',
+    alt: 'Integrating applications',
+    header: 'Integrating AI in Enterpise solutions',
+    description:
+      'We help our customers integrate AI models and tools seamlessly into their existing workloads.',
   },
 ]
 </script>
@@ -46,7 +47,7 @@ const IMAGES: {
     <!-- <TheWelcome /> -->
     <Carousel
       @init-api="setApi"
-      :plugins="[Autoplay({ delay: 5000 })]"
+      :plugins="[Autoplay({ delay: 100000 })]"
       v-slot="{ canScrollNext }"
       class="w-full min-w-5xl max-w-5xl m-auto"
       :opts="{
@@ -59,7 +60,7 @@ const IMAGES: {
           <Card>
             <CardContent class="flex items-center justify-center">
               <div
-                class="p-10 h-[60vh] w-[80vw] -m-6"
+                class="p-10 w-[80vw] -m-6 flex flex-col"
                 :style="{
                   backgroundImage: 'url(' + val.img + ')',
                   backgroundRepeat: 'no-repeat',
@@ -68,15 +69,17 @@ const IMAGES: {
                   backgroundBlendMode: 'lighten',
                 }"
               >
-                <div class="top-24 text-slate-950 flex flex-col gap-4">
-                  <h1
-                    class="text-4xl font-semibold p-4 m-auto bg-gray-100 bg-opacity-25"
-                  >
+                <div
+                  class="absolute w-full max-w-[90%] top-24 text-green-950 flex flex-col gap-4 bg-gray-100 m-auto p-4 rounded-lg drop-shadow-md bg-opacity-85"
+                >
+                  <h1 class="text-4xl font-semibold mx-auto bg-opacity-75">
                     {{ val.header }}
                   </h1>
-                  <p>{{ val.description }}</p>
+                  <p class="text-2xl text-green-950">
+                    {{ val.description }}
+                  </p>
                 </div>
-                <!-- <img :src="val.img" :alt="val.alt" class="w-full" /> -->
+                <img :src="val.img" :alt="val.alt" class="w-full" />
               </div>
             </CardContent>
           </Card>
